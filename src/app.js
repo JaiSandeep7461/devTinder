@@ -40,7 +40,7 @@ app.use("/user",(req, res,next) => {
 }
 );
 
-
+/// The different way of handling routes is app.use("/route",rH1,[rH2,rH3],rH4,rH5)
 app.listen(3000, () => {
   console.log("Server is successfully listening on port 3000");
 });
