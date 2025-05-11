@@ -1,19 +1,36 @@
 const express = require("express");
-
+const connectDB = require("./config/database");
 const app = express();
+const User = require("./models/user");
 
-app.get("/user", (req, res) => {
-  throw new Error("hksdfjsd");
-  res.send("User Data Sent");
-});
 
-// The below method is use to handle all errors and it will match all the routes
-app.use("/", (err, req, res, next) => {
-  if (err) {
-    res.status(500).send("something went wrong");
-  }
-});
+app.post("/signUp",async(req,res)=>{
 
-app.listen(3000, () => {
-  console.log("Server is successfully listening on port 3000");
-});
+
+  //Creating a new instance of the User Model
+  const user = new User({
+    firstName:"Test1",
+    lastName:"sample",
+    emailId:"test45@gmail.com",
+    password:"Test@1234"
+  });
+ try{
+  await user.save();
+ res.send("User Added Successfully");
+ }catch(err){
+  res.status(400).send("Error saving the user: "+err.message);
+ }
+
+})
+
+
+connectDB().then(()=>{
+  console.log("Database connection established");
+  app.listen(7777, () => {
+    console.log("Server is successfully listening on port 3000");
+  });
+}).catch(err=>{
+  console.error("Database cannot be connected");
+})
+
+
